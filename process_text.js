@@ -14,6 +14,10 @@ const genericColumnProcessor = (contents) => {
   return stripFormFeed(contents).split(/\r?\n/g);
 };
 
+const metaProcessor = (contents) => {
+  return stripFormFeed(contents);
+};
+
 const files = {
   player_names: nameProcessor,
   scores: genericColumnProcessor,
@@ -58,6 +62,9 @@ table.forEach((col, idx) => {
 
   maxes[idx] = max;
 });
+
+console.log(metaProcessor(readFileSync("meta.txt", { encoding: "utf8" })));
+console.log();
 
 for (let i = 0; i < table[0].length; i++) {
   let row = "|";
