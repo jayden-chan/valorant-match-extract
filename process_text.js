@@ -60,16 +60,10 @@ table.forEach((col, idx) => {
 });
 
 console.log(stripFormFeed(readFileSync("meta.txt", { encoding: "utf8" })));
-const home_score = stripFormFeed(
-  readFileSync("home_score.txt", { encoding: "utf8" })
-);
-const away_score = stripFormFeed(
-  readFileSync("away_score.txt", { encoding: "utf8" })
-);
+const home = stripFormFeed(readFileSync("home.txt", { encoding: "utf8" }));
+const away = stripFormFeed(readFileSync("away.txt", { encoding: "utf8" }));
 console.log(
-  `${home_score} - ${away_score} (${
-    Number(home_score) < Number(away_score) ? "DEFEAT" : "VICTORY"
-  })`
+  `${home} - ${away} (${Number(home) < Number(away) ? "DEFEAT" : "VICTORY"})`
 );
 console.log();
 

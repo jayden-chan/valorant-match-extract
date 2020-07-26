@@ -139,8 +139,8 @@ tesseract img/first_bloods.tif first_bloods -l eng --psm 6 --dpi 70 2>/dev/null
 tesseract img/plants.tif       plants       -l eng --psm 6 --dpi 70 2>/dev/null
 tesseract img/defuses.tif      defuses      -l eng --psm 6 --dpi 70 2>/dev/null
 tesseract img/meta.tif         meta         -l eng --psm 6 --dpi 70 2>/dev/null
-tesseract img/home_score.tif   home_score   -l eng --psm 6 --dpi 70 2>/dev/null
-tesseract img/away_score.tif   away_score   -l eng --psm 6 --dpi 70 2>/dev/null
+tesseract img/home_score.tif   home         -l eng --psm 6 --dpi 70 2>/dev/null
+tesseract img/away_score.tif   away         -l eng --psm 6 --dpi 70 2>/dev/null
 
 echo "Processing extracted text..."
 echo
