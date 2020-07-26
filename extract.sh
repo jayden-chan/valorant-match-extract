@@ -109,16 +109,16 @@ convert $1 \
     img/meta.tif
 
 echo "Extracting text..."
-tesseract img/player_names.tif player_names -l eng --psm 4 --dpi 70
-tesseract img/scores.tif       scores       -l eng --psm 6 --dpi 70
-tesseract img/K.tif            K            -l eng --psm 6 --dpi 70
-tesseract img/D.tif            D            -l eng --psm 6 --dpi 70
-tesseract img/A.tif            A            -l eng --psm 6 --dpi 70
-tesseract img/econ.tif         econ         -l eng --psm 6 --dpi 70
-tesseract img/first_bloods.tif first_bloods -l eng --psm 6 --dpi 70
-tesseract img/plants.tif       plants       -l eng --psm 6 --dpi 70
-tesseract img/defuses.tif      defuses      -l eng --psm 6 --dpi 70
-tesseract img/meta.tif         meta         -l eng --psm 6 --dpi 70
+tesseract img/player_names.tif player_names -l eng --psm 4 --dpi 70 2>/dev/null
+tesseract img/scores.tif       scores       -l eng --psm 6 --dpi 70 2>/dev/null
+tesseract img/K.tif            K            -l eng --psm 6 --dpi 70 2>/dev/null
+tesseract img/D.tif            D            -l eng --psm 6 --dpi 70 2>/dev/null
+tesseract img/A.tif            A            -l eng --psm 6 --dpi 70 2>/dev/null
+tesseract img/econ.tif         econ         -l eng --psm 6 --dpi 70 2>/dev/null
+tesseract img/first_bloods.tif first_bloods -l eng --psm 6 --dpi 70 2>/dev/null
+tesseract img/plants.tif       plants       -l eng --psm 6 --dpi 70 2>/dev/null
+tesseract img/defuses.tif      defuses      -l eng --psm 6 --dpi 70 2>/dev/null
+tesseract img/meta.tif         meta         -l eng --psm 6 --dpi 70 2>/dev/null
 
 echo "Processing extracted text..."
 echo
