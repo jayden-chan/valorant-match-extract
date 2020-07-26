@@ -14,10 +14,6 @@ const genericColumnProcessor = (contents) => {
   return stripFormFeed(contents).split(/\r?\n/g);
 };
 
-const metaProcessor = (contents) => {
-  return stripFormFeed(contents);
-};
-
 const files = {
   player_names: nameProcessor,
   scores: genericColumnProcessor,
@@ -63,7 +59,18 @@ table.forEach((col, idx) => {
   maxes[idx] = max;
 });
 
-console.log(metaProcessor(readFileSync("meta.txt", { encoding: "utf8" })));
+console.log(stripFormFeed(readFileSync("meta.txt", { encoding: "utf8" })));
+const home_score = stripFormFeed(
+  readFileSync("home_score.txt", { encoding: "utf8" })
+);
+const away_score = stripFormFeed(
+  readFileSync("away_score.txt", { encoding: "utf8" })
+);
+console.log(
+  `${home_score} - ${away_score} (${
+    Number(home_score) < Number(away_score) ? "DEFEAT" : "VICTORY"
+  })`
+);
 console.log();
 
 for (let i = 0; i < table[0].length; i++) {
