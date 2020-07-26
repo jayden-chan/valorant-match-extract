@@ -144,4 +144,4 @@ tesseract img/away_score.tif   away         -l eng --psm 6 --dpi 70 2>/dev/null
 
 echo "Processing extracted text..."
 echo
-node process_text.js
+deno run --allow-read --no-check process_text.ts md

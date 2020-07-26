@@ -6,6 +6,7 @@ Simple shell script to extract match metadata from a Valorant screenshot
 ### Dependencies
 * ImageMagick
 * Tesseract OCR
+* Deno
 
 ```
 $ git clone https://github.com/jayden-chan/valorant-match-extract
