@@ -55,7 +55,7 @@ export async function processImage(path: string): Promise<boolean> {
         "-crop",
         info.crop,
         "-resize",
-        "300%",
+        "200%",
         "-threshold",
         `${info.threshold ?? DEFAULT_THRESHOLD}%`,
         "-negate",
