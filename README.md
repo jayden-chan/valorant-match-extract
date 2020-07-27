@@ -1,14 +1,21 @@
 # Valorant Match Data Extractor
 
-Simple shell script to extract match metadata from a Valorant screenshot
+Simple script to extract match metadata from a Valorant screenshot
 
-## Installation
+## Usage
 ### Dependencies
+* Deno
 * ImageMagick
 * Tesseract OCR
-* Deno
 
 ```
-$ git clone https://github.com/jayden-chan/valorant-match-extract
-$ ./extract.sh /path/to/screenshot
+git clone https://github.com/jayden-chan/valorant-match-extract
+mkdir img tesseract
+
+# Extract the data from the screenshot
+deno run --allow-run src/index.ts --gen Screenshot_1.png
+
+# Print the data in your desired format
+deno run --allow-read src/index.ts md
+deno run --allow-read src/index.ts json
 ```
