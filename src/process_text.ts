@@ -1,5 +1,9 @@
 import StringBuffer from "./string_buffer.ts";
 
+function capitalize(text: string): string {
+  return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+}
+
 function pivotScoreboard(
   scoreboard: (string | number)[][]
 ): (string | number)[][] {
@@ -18,7 +22,9 @@ function pivotScoreboard(
 }
 
 function read(path: string) {
-  return Deno.readTextFileSync(`tesseract/${path}.txt`).replace(/\n?\f/g, "");
+  return Deno.readTextFileSync(`tesseract/${path}.txt`)
+    .replace(/\n?\f/g, "")
+    .trim();
 }
 
 function nameProcessor(contents: string) {
@@ -60,7 +66,10 @@ export function processText(format: string): string {
     const data = func(contents);
 
     if (data.length !== 10) {
-      console.error("WARN: Wrong column length encountered");
+      console.error(`WARN: Wrong column length encountered (${data.length})`);
+      console.error(data);
+      console.error(contents);
+      console.error(file);
     }
 
     table[idx + 1] = table[idx + 1].concat(data);
@@ -124,9 +133,14 @@ export function processText(format: string): string {
       break;
 
     case "toml":
-      ret.pushLine(`[[game]]`);
-      ret.pushLine(`date = "${meta[0]}"`);
-      ret.pushLine(`map = "${meta[2].split("- ")[1]}"`);
+      ret.pushLine(`[[games]]`);
+      ret.pushLine(
+        `date = "${meta[0]
+          .split(" ")
+          .map((val, idx) => (idx === 0 ? capitalize(val) : val))
+          .join(" ")}"`
+      );
+      ret.pushLine(`map = "${capitalize(meta[2].split("- ")[1])}"`);
       ret.pushLine(`score = [ ${home}, ${away} ]`);
       ret.pushLine(`time = "${meta[3]}"`);
       ret.pushLine("scoreboard = [");
