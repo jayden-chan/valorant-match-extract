@@ -1,5 +1,7 @@
 import StringBuffer from "./string_buffer.ts";
 
+const PREDEF_COLS = 2;
+
 function capitalize(text: string): string {
   return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
 }
@@ -48,8 +50,10 @@ const FILES = {
 };
 
 export function processText(format: string): string {
+  const agents = read("agents").split("\n");
   const table: (number | string)[][] = [
     ["#"].concat([...Array(10).keys()].map((e) => `${e + 1}`)),
+    ["agent"].concat(agents),
     ["player_name"],
     ["scr"],
     ["K"],
@@ -72,7 +76,7 @@ export function processText(format: string): string {
       console.error(file);
     }
 
-    table[idx + 1] = table[idx + 1].concat(data);
+    table[idx + PREDEF_COLS] = table[idx + PREDEF_COLS].concat(data);
   });
 
   const maxes = Array(10).fill(0);
