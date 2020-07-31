@@ -1,33 +1,50 @@
 const DEFAULT_THRESHOLD = 80;
-const IMAGE_SECTIONS: {
-  [key: string]: { crop: string; threshold?: number };
-} = {
+
+type Section = {
+  [key: string]: {
+    crop: string;
+    charset?: string;
+    threshold?: number;
+  };
+};
+
+const NUMBERS = "1234567890";
+
+const IMAGE_SECTIONS: Section = {
   player_names: {
     crop: "380x520+335+350",
   },
   scores: {
     crop: "100x520+683+350",
+    charset: NUMBERS,
   },
   K: {
     crop: "64x520+823+350",
+    charset: NUMBERS,
   },
   D: {
     crop: "64x520+871+350",
+    charset: NUMBERS,
   },
   A: {
     crop: "64x520+920+350",
+    charset: NUMBERS,
   },
   econ: {
     crop: "95x520+1000+350",
+    charset: NUMBERS,
   },
   first_bloods: {
     crop: "64x520+1170+350",
+    charset: NUMBERS,
   },
   plants: {
     crop: "64x520+1323+350",
+    charset: NUMBERS,
   },
   defuses: {
     crop: "64x520+1475+350",
+    charset: NUMBERS,
   },
   meta: {
     crop: "181x101+1631+164",
@@ -36,10 +53,12 @@ const IMAGE_SECTIONS: {
   home: {
     crop: "140x76+648+91",
     threshold: 45,
+    charset: NUMBERS,
   },
   away: {
     crop: "140x76+1050+88",
     threshold: 45,
+    charset: NUMBERS,
   },
 };
 
@@ -55,7 +74,7 @@ export async function processImage(path: string): Promise<boolean> {
         "-crop",
         info.crop,
         "-resize",
-        "200%",
+        "500%",
         "-threshold",
         `${info.threshold ?? DEFAULT_THRESHOLD}%`,
         "-negate",
@@ -78,6 +97,9 @@ export async function processImage(path: string): Promise<boolean> {
 
     convert.close();
 
+    const config = info.charset
+      ? ["-c", `tessedit_char_whitelist=${info.charset}`]
+      : [];
     const tesseract = Deno.run({
       stdout: "null",
       stderr: "null",
@@ -91,7 +113,7 @@ export async function processImage(path: string): Promise<boolean> {
         "6",
         "--dpi",
         "70",
-      ],
+      ].concat(config),
     });
 
     const tesseract_status = await tesseract.status();
