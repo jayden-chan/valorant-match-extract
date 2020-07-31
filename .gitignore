@@ -1,3 +1,5 @@
 *.txt
 img
-*.png
+tesseract
+/*.png
+agent-pictures
