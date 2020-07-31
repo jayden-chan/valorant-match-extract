@@ -1,5 +1,22 @@
 import StringBuffer from "./string_buffer.ts";
 
+function pivotScoreboard(
+  scoreboard: (string | number)[][]
+): (string | number)[][] {
+  scoreboard = scoreboard.slice(1);
+  const ret: (string | number)[][] = Array(scoreboard[0].length)
+    .fill(null)
+    .map(() => []);
+
+  for (let i = 0; i < scoreboard.length; i++) {
+    for (let j = 0; j < scoreboard[0].length; j++) {
+      ret[j][i] = scoreboard[i][j];
+    }
+  }
+
+  return ret;
+}
+
 function read(path: string) {
   return Deno.readTextFileSync(`tesseract/${path}.txt`).replace(/\n?\f/g, "");
 }
@@ -58,15 +75,19 @@ export function processText(format: string): string {
     maxes[idx] = max;
   });
 
-  const meta = read("meta");
+  const meta = read("meta").split(/\r?\n/g);
   const home = Number(read("home"));
   const away = Number(read("away"));
+
+  if (meta.length !== 4) {
+    throw new Error("Failed to properly extract metadata");
+  }
 
   const ret = new StringBuffer();
 
   switch (format) {
     case "md":
-      ret.pushLine(meta);
+      ret.pushLine(meta.join("\n"));
       ret.pushLine(`${home} - ${away} (${home < away ? "DEFEAT" : "VICTORY"})`);
       ret.pushLine();
 
@@ -87,15 +108,36 @@ export function processText(format: string): string {
 
     case "json":
       ret.pushLine(
-        JSON.stringify({
-          meta,
-          score: {
-            home,
-            away,
+        JSON.stringify(
+          {
+            meta,
+            score: {
+              home,
+              away,
+            },
+            scoreboard: pivotScoreboard(table),
           },
-          scoreboard: table,
-        })
+          null,
+          2
+        )
       );
+      break;
+
+    case "toml":
+      ret.pushLine(`[[game]]`);
+      ret.pushLine(`date = "${meta[0]}"`);
+      ret.pushLine(`map = "${meta[2].split("- ")[1]}"`);
+      ret.pushLine(`score = [ ${home}, ${away} ]`);
+      ret.pushLine(`time = "${meta[3]}"`);
+      ret.pushLine("scoreboard = [");
+      pivotScoreboard(table)
+        .slice(1)
+        .forEach((row) => {
+          ret.pushLine(`  [ ${row.map((v) => `"${v}"`).join(", ")} ],`);
+        });
+      ret.pushLine("]");
+      ret.pushLine();
+      break;
 
     default:
       throw new TypeError("Invalid output format");
