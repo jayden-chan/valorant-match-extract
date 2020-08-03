@@ -34,7 +34,13 @@ function nameProcessor(contents: string) {
 }
 
 function columnProcessor(contents: string) {
-  return contents.split(/\r?\n/g).map((cell) => Number(cell));
+  return contents.split(/\r?\n/g).map((cell) => {
+    const asNum = Number(cell);
+    if (Number.isNaN(asNum)) {
+      console.error(`WARN: Found NaN value: ${cell}`);
+    }
+    return asNum;
+  });
 }
 
 const FILES = {

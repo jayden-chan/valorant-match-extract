@@ -23,8 +23,7 @@ const agents = [
 ];
 
 const NUMBERS = "1234567890";
-const ALPHA_NUMERIC =
-  "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+const META_CHARSET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890 :.-";
 const AGENTS_START = [281, 351];
 
 const IMAGE_SECTIONS: Section = {
@@ -65,7 +64,7 @@ const IMAGE_SECTIONS: Section = {
   },
   meta: {
     crop: [181, 101, 1631, 164],
-    charset: ALPHA_NUMERIC,
+    charset: META_CHARSET,
     threshold: 45,
   },
   home: {
