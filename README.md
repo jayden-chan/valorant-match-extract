@@ -18,4 +18,5 @@ deno run --allow-run src/index.ts --gen Screenshot_1.png
 # Print the data in your desired format
 deno run --allow-read src/index.ts md
 deno run --allow-read src/index.ts json
+deno run --allow-read src/index.ts toml
 ```
