@@ -159,8 +159,7 @@ export function processText(format: string): string {
         .forEach((row) => {
           ret.pushLine(`  [ ${row.map((v) => `"${v}"`).join(", ")} ],`);
         });
-      ret.pushLine("]");
-      ret.pushLine();
+      ret.push("]");
       break;
 
     default:

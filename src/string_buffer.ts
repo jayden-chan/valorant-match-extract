@@ -13,6 +13,10 @@ export default class StringBuffer {
     this.buffer += "\n";
   }
 
+  push(text: string) {
+    this.buffer += text;
+  }
+
   get(): string {
     return this.buffer;
   }
