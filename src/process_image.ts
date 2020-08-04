@@ -142,6 +142,8 @@ export async function processImage(path: string): Promise<boolean> {
   }
 
   Deno.writeTextFile("tesseract/agents.txt", discoveredAgents.join("\n"));
+  Deno.remove("cropped.png");
+  Deno.remove("tmp.png");
 
   for (const [key, info] of Object.entries(IMAGE_SECTIONS)) {
     const [c0, c1, c2, c3] = info.crop;
