@@ -104,7 +104,7 @@ export function processText(format: string): string {
 
   const ret = new StringBuffer();
 
-  switch (format) {
+  switch (format.toLowerCase()) {
     case "md":
       ret.pushLine(meta.join("\n"));
       ret.pushLine(`${home} - ${away} (${home < away ? "DEFEAT" : "VICTORY"})`);
@@ -127,18 +127,14 @@ export function processText(format: string): string {
 
     case "json":
       ret.pushLine(
-        JSON.stringify(
-          {
-            meta,
-            score: {
-              home,
-              away,
-            },
-            scoreboard: pivotScoreboard(table),
+        JSON.stringify({
+          meta,
+          score: {
+            home,
+            away,
           },
-          null,
-          2
-        )
+          scoreboard: pivotScoreboard(table),
+        })
       );
       break;
 

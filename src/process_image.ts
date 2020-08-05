@@ -1,5 +1,3 @@
-const DEFAULT_THRESHOLD = 80;
-
 type Section = {
   [key: string]: {
     crop: [number, number, number, number];
@@ -8,9 +6,10 @@ type Section = {
   };
 };
 
-const NUMBERS = "1234567890";
+const NUMBERS_CHARSET = "1234567890";
 const META_CHARSET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890 :.-";
 const AGENTS_START = [281, 351];
+const DEFAULT_THRESHOLD = 80;
 
 const IMAGE_SECTIONS: Section = {
   player_names: {
@@ -18,35 +17,35 @@ const IMAGE_SECTIONS: Section = {
   },
   scores: {
     crop: [100, 520, 683, 350],
-    charset: NUMBERS,
+    charset: NUMBERS_CHARSET,
   },
   K: {
     crop: [64, 520, 823, 350],
-    charset: NUMBERS,
+    charset: NUMBERS_CHARSET,
   },
   D: {
     crop: [64, 520, 871, 350],
-    charset: NUMBERS,
+    charset: NUMBERS_CHARSET,
   },
   A: {
     crop: [64, 520, 920, 350],
-    charset: NUMBERS,
+    charset: NUMBERS_CHARSET,
   },
   econ: {
     crop: [95, 520, 1000, 350],
-    charset: NUMBERS,
+    charset: NUMBERS_CHARSET,
   },
   first_bloods: {
     crop: [64, 520, 1170, 350],
-    charset: NUMBERS,
+    charset: NUMBERS_CHARSET,
   },
   plants: {
     crop: [64, 520, 1323, 350],
-    charset: NUMBERS,
+    charset: NUMBERS_CHARSET,
   },
   defuses: {
     crop: [64, 520, 1475, 350],
-    charset: NUMBERS,
+    charset: NUMBERS_CHARSET,
   },
   meta: {
     crop: [181, 101, 1631, 164],
@@ -56,12 +55,12 @@ const IMAGE_SECTIONS: Section = {
   home: {
     crop: [140, 76, 648, 91],
     threshold: 45,
-    charset: NUMBERS,
+    charset: NUMBERS_CHARSET,
   },
   away: {
     crop: [140, 76, 1050, 88],
     threshold: 45,
-    charset: NUMBERS,
+    charset: NUMBERS_CHARSET,
   },
 };
 
