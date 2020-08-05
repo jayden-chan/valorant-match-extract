@@ -13,6 +13,7 @@ const agents = [
   "brimstone",
   "cypher",
   "jett",
+  "killjoy",
   "omen",
   "phoenix",
   "raze",
