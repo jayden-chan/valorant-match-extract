@@ -8,21 +8,6 @@ type Section = {
   };
 };
 
-const agents = [
-  "breach",
-  "brimstone",
-  "cypher",
-  "jett",
-  "killjoy",
-  "omen",
-  "phoenix",
-  "raze",
-  "reyna",
-  "sage",
-  "sova",
-  "viper",
-];
-
 const NUMBERS = "1234567890";
 const META_CHARSET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890 :.-";
 const AGENTS_START = [281, 351];
@@ -106,7 +91,9 @@ export async function processImage(path: string): Promise<boolean> {
       return false;
     } else {
       let leastErr = [Number.MAX_SAFE_INTEGER, ""];
-      for (let j = 0; j < agents.length; j++) {
+
+      for (const dirEntry of Deno.readDirSync("./agents")) {
+        const agent = dirEntry.name.slice(0, -4);
         const compare = Deno.run({
           stdout: "piped",
           stderr: "piped",
@@ -116,7 +103,7 @@ export async function processImage(path: string): Promise<boolean> {
             "-metric",
             "DSSIM",
             "cropped.png",
-            `agents/${agents[j]}.png`,
+            `agents/${agent}.png`,
             "tmp.png",
           ],
         });
@@ -125,11 +112,11 @@ export async function processImage(path: string): Promise<boolean> {
           const result = await compare.stderrOutput();
           const resultNum = Number(textDecoder.decode(result).split(" ")[0]);
           if (resultNum < leastErr[0]) {
-            leastErr = [resultNum, agents[j]];
+            leastErr = [resultNum, agent];
           }
         } catch (e) {
           console.error(
-            `Failed to compare cropped agent image to agent ${agents[j]}`
+            `Failed to compare cropped agent image to agent ${agent}`
           );
           console.error(e);
           return false;
