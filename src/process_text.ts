@@ -1,6 +1,7 @@
 import StringBuffer from "./string_buffer.ts";
 
 const PREDEF_COLS = 2;
+const MAPS = ["ascent", "bind", "split", "haven"];
 
 function capitalize(text: string): string {
   return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
@@ -34,13 +35,16 @@ function nameProcessor(contents: string) {
 }
 
 function columnProcessor(contents: string) {
-  return contents.split(/\r?\n/g).map((cell) => {
-    const asNum = Number(cell);
-    if (Number.isNaN(asNum)) {
-      console.error(`WARN: Found NaN value: ${cell}`);
-    }
-    return asNum;
-  });
+  return contents
+    .split(/\r?\n/g)
+    .filter((cell) => cell.trim().length > 0)
+    .map((cell) => {
+      const asNum = Number(cell);
+      if (Number.isNaN(asNum)) {
+        console.error(`WARN: Found NaN value: ${cell}`);
+      }
+      return asNum;
+    });
 }
 
 const FILES = {
@@ -77,9 +81,9 @@ export function processText(format: string): string {
 
     if (data.length !== 10) {
       console.error(`WARN: Wrong column length encountered (${data.length})`);
-      console.error(data);
-      console.error(contents);
-      console.error(file);
+      console.error("data", data);
+      console.error("contents", contents);
+      console.error("file", file);
     }
 
     table[idx + PREDEF_COLS] = table[idx + PREDEF_COLS].concat(data);
@@ -97,9 +101,20 @@ export function processText(format: string): string {
   const meta = read("meta").split(/\r?\n/g);
   const home = Number(read("home"));
   const away = Number(read("away"));
+  const date = meta[0]
+    .split(" ")
+    .map((val, idx) => (idx === 0 ? capitalize(val) : val))
+    .join(" ");
+
+  const map = capitalize(meta[2].split("- ")[1]);
+  const time = meta[3];
 
   if (meta.length !== 4) {
     throw new Error("Failed to properly extract metadata");
+  }
+
+  if (!MAPS.includes(map.toLowerCase())) {
+    throw new Error(`Invalid map "${map}" found`);
   }
 
   const ret = new StringBuffer();
@@ -128,12 +143,11 @@ export function processText(format: string): string {
     case "json":
       ret.pushLine(
         JSON.stringify({
-          meta,
-          score: {
-            home,
-            away,
-          },
-          scoreboard: pivotScoreboard(table),
+          date,
+          map,
+          score: [home, away],
+          time,
+          scoreboard: pivotScoreboard(table).slice(1),
         })
       );
       break;
